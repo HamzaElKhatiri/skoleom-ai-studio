@@ -1,82 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:skoleom_ai_studio/screens/agents_screen.dart';
-import 'package:skoleom_ai_studio/screens/chat_screen.dart';
-import 'package:skoleom_ai_studio/screens/dashboard_screen.dart';
-import 'package:skoleom_ai_studio/screens/onboarding_login_screen.dart';
-import 'package:skoleom_ai_studio/screens/projects_screen.dart';
-import 'package:skoleom_ai_studio/screens/settings_screen.dart';
-import 'package:skoleom_ai_studio/theme/app_theme.dart';
 
 void main() {
-  runApp(const SkoleomApp());
+  runApp(const SkoleomGeneratedApp());
 }
 
-class SkoleomApp extends StatefulWidget {
-  const SkoleomApp({super.key});
-
-  @override
-  State<SkoleomApp> createState() => _SkoleomAppState();
-}
-
-class _SkoleomAppState extends State<SkoleomApp> {
-  bool _loggedIn = false;
+class SkoleomGeneratedApp extends StatelessWidget {
+  const SkoleomGeneratedApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Skoleom AI Studio',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
-      home: _loggedIn
-          ? const AppShell()
-          : OnboardingLoginScreen(onLogin: () => setState(() => _loggedIn = true)),
+      title: 'Skoleom AI Studio',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9DFF00), brightness: Brightness.dark),
+        fontFamily: 'Poppins',
+      ),
+      home: const HomeScreen(),
     );
   }
 }
 
-class AppShell extends StatefulWidget {
-  const AppShell({super.key});
-
-  @override
-  State<AppShell> createState() => _AppShellState();
-}
-
-class _AppShellState extends State<AppShell> {
-  int _index = 0;
-
-  final List<Widget> _screens = const [
-    DashboardScreen(),
-    ChatScreen(),
-    ProjectsScreen(),
-    AgentsScreen(),
-    SettingsScreen(),
-  ];
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 280),
-        child: KeyedSubtree(key: ValueKey<int>(_index), child: _screens[_index]),
-      ),
-      bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(28),
-          child: NavigationBar(
-            selectedIndex: _index,
-            height: 72,
-            backgroundColor: AppTheme.surface.withOpacity(0.92),
-            indicatorColor: AppTheme.accent.withOpacity(0.18),
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-            onDestinationSelected: (value) => setState(() => _index = value),
-            destinations: const [
-              NavigationDestination(icon: Icon(Icons.dashboard_rounded), label: 'Home'),
-              NavigationDestination(icon: Icon(Icons.auto_awesome_rounded), label: 'Chat'),
-              NavigationDestination(icon: Icon(Icons.folder_rounded), label: 'Projects'),
-              NavigationDestination(icon: Icon(Icons.smart_toy_rounded), label: 'Agents'),
-              NavigationDestination(icon: Icon(Icons.tune_rounded), label: 'Settings'),
+      backgroundColor: const Color(0xFF050505),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Skoleom AI Studio', style: TextStyle(color: Color(0xFF9DFF00), letterSpacing: 2)),
+              const SizedBox(height: 22),
+              Text('Skoleom AI Studio', style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w800)),
+              const SizedBox(height: 16),
+              Text('Corrige automatiquement le projet à partir de l\'échec GitHub Actions suivant.
+
+Contexte:
+- Repository: HamzaElKhatiri/skoleom-ai-studio
+- Run GitHub Actions: 28505744773
+- Jobs en échec: build: failure
+
+Objectif:
+- Anal', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white70)),
+              const Spacer(),
+              FilledButton(onPressed: () {}, child: const Text('Commencer')),
             ],
           ),
         ),
