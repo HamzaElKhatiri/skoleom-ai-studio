@@ -4,167 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Skoleom AI Studio</title>
-    <style>:root {
-  color: #fff;
-  background: #050505;
-  font-family: Poppins, Inter, system-ui, sans-serif;
-}
-
-* { box-sizing: border-box; }
-
-body { margin: 0; }
-
-.app-shell {
-  min-height: 100vh;
-  padding: 28px;
-  background:
-    radial-gradient(circle at 72% 0%, rgba(140, 255, 0, .16), transparent 30rem),
-    radial-gradient(circle at 0% 42%, rgba(255, 115, 0, .14), transparent 26rem),
-    #050505;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1180px;
-  margin: 0 auto 64px;
-}
-
-.nav span,
-.eyebrow,
-.conversion p {
-  color: #8cff00;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.nav a,
-.hero-actions a,
-.hero-actions button {
-  min-height: 46px;
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: 999px;
-  padding: 0 20px;
-  display: inline-flex;
-  align-items: center;
-  color: #050505;
-  background: #d9ff00;
-  text-decoration: none;
-  font: inherit;
-}
-
-.hero {
-  max-width: 1180px;
-  margin: 0 auto;
-  min-height: 55vh;
-  display: grid;
-  align-content: center;
-}
-
-.hero h1 {
-  max-width: 980px;
-  margin: 12px 0 24px;
-  font-family: Anton, Impact, sans-serif;
-  font-size: clamp(64px, 12vw, 164px);
-  line-height: .82;
-  letter-spacing: 0;
-}
-
-.lead {
-  max-width: 680px;
-  color: rgba(255,255,255,.72);
-  font-size: clamp(18px, 2vw, 26px);
-  line-height: 1.45;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 30px;
-}
-
-.hero-actions button {
-  color: #fff;
-  background: rgba(255,255,255,.08);
-}
-
-.feature-grid {
-  max-width: 1180px;
-  margin: 72px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.feature-grid article,
-.conversion {
-  border: 1px solid rgba(255,255,255,.13);
-  border-radius: 28px;
-  background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.035));
-  padding: 26px;
-}
-
-.feature-grid span { color: #ff7a1a; }
-.feature-grid h2 { margin: 18px 0 10px; font-size: 24px; }
-.feature-grid p { color: rgba(255,255,255,.62); line-height: 1.6; }
-
-.conversion {
-  max-width: 1180px;
-  margin: 14px auto 0;
-}
-
-.conversion h2 {
-  max-width: 740px;
-  margin: 12px 0 0;
-  font-size: clamp(34px, 5vw, 72px);
-  line-height: .95;
-}
-
-@media (max-width: 820px) {
-  .app-shell { padding: 18px; }
-  .feature-grid { grid-template-columns: 1fr; }
-}
-</style>
+    <style>
+      :root{color:#fff;background:#050505;font-family:Poppins,Inter,system-ui,sans-serif}*{box-sizing:border-box}body{margin:0}.app-shell{min-height:100vh;padding:28px;background:radial-gradient(circle at 72% 0%,rgba(124,92,255,.28),transparent 30rem),radial-gradient(circle at 0% 42%,rgba(0,212,255,.16),transparent 26rem),#07080d}.nav{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto 64px}.nav span,.eyebrow,.conversion p{color:#00d4ff;letter-spacing:.18em;text-transform:uppercase;font-size:12px}.nav a,.hero-actions a,.hero-actions button{min-height:46px;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:0 20px;display:inline-flex;align-items:center;color:#fff;background:linear-gradient(135deg,#7c5cff,#00d4ff);text-decoration:none;font:inherit}.hero{max-width:1180px;margin:0 auto;min-height:55vh;display:grid;align-content:center}.hero h1{max-width:980px;margin:12px 0 24px;font-family:Anton,Impact,sans-serif;font-size:clamp(58px,11vw,146px);line-height:.85;letter-spacing:-.04em}.lead{max-width:760px;color:rgba(255,255,255,.72);font-size:clamp(18px,2vw,26px);line-height:1.45}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.hero-actions button{background:rgba(255,255,255,.08)}.feature-grid{max-width:1180px;margin:72px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.feature-grid article,.conversion{border:1px solid rgba(255,255,255,.13);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.035));padding:26px}.feature-grid span{color:#7c5cff}.feature-grid h2{margin:18px 0 10px;font-size:24px}.feature-grid p{color:rgba(255,255,255,.62);line-height:1.6}.conversion{max-width:1180px;margin:14px auto 0}.conversion h2{max-width:760px;margin:12px 0 0;font-size:clamp(34px,5vw,72px);line-height:.95}@media(max-width:820px){.app-shell{padding:18px}.feature-grid{grid-template-columns:1fr}}
+    </style>
   </head>
   <body>
     <main class="app-shell">
-      <nav class="nav">
-        <span>Skoleom AI Studio</span>
-        <a href="#contact">Commencer</a>
-      </nav>
+      <nav class="nav"><span>Skoleom AI Studio</span><a href="#fix">Build corrigé</a></nav>
       <section class="hero">
-        <p class="eyebrow">Skoleom generated</p>
+        <p class="eyebrow">Flutter Web release ready</p>
         <h1>SKOLEOM AI STUDIO</h1>
-        <p class="lead">Correction des 31 alertes flutter analyze : remplacement de withOpacity par withValues, suppression du return dans finally et ajout des const manquants.</p>
-        <div class="hero-actions">
-          <a href="#contact">Lancer le projet</a>
-          <button type="button">Voir la demo</button>
-        </div>
+        <p class="lead">Le build ne dépend plus des packages externes http et google_fonts. Le client API utilise un transport natif conditionnel Web/Mobile et le dashboard ne contient plus d’expression const invalide.</p>
+        <div class="hero-actions"><a href="#fix">Voir les corrections</a><button type="button">flutter build web OK</button></div>
       </section>
       <section class="feature-grid">
-        <article>
-          <span>01</span>
-          <h2>Prototype IA</h2>
-          <p>Une section générée pour transformer l'idée en interface produit utilisable.</p>
-        </article>
-<article>
-          <span>02</span>
-          <h2>Interface responsive</h2>
-          <p>Une section générée pour transformer l'idée en interface produit utilisable.</p>
-        </article>
-<article>
-          <span>03</span>
-          <h2>Prêt à itérer</h2>
-          <p>Une section générée pour transformer l'idée en interface produit utilisable.</p>
-        </article>
+        <article><span>01</span><h2>Sans http externe</h2><p>Transport HTTP natif conditionnel pour éviter les erreurs de package non résolu.</p></article>
+        <article><span>02</span><h2>Sans google_fonts</h2><p>Thème Flutter premium avec fontFamily système Poppins sans import externe.</p></article>
+        <article><span>03</span><h2>Const corrigé</h2><p>Les KPI dynamiques du dashboard sont rendus sans constructeur const invalide.</p></article>
       </section>
-      <section class="conversion" id="contact">
-        <p>Prêt pour la suite</p>
-        <h2>Prototype visuel, structure React et CSS prêts à itérer.</h2>
-      </section>
+      <section class="conversion" id="fix"><p>Prêt pour CI</p><h2>Le workflow peut lancer flutter pub get, flutter analyze et flutter build web --release --base-href "/".</h2></section>
     </main>
   </body>
 </html>

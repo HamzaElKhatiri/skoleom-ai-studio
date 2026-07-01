@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const Color background = Color(0xFF07080D);
@@ -19,7 +18,7 @@ class AppTheme {
     return base.copyWith(
       scaffoldBackgroundColor: background,
       colorScheme: const ColorScheme.dark(primary: accent, secondary: accent2, surface: surface, error: danger),
-      textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(bodyColor: text, displayColor: text),
+      textTheme: base.textTheme.apply(fontFamily: 'Poppins', bodyColor: text, displayColor: text),
       appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0, centerTitle: false),
       cardTheme: CardThemeData(color: surface, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28))),
       inputDecorationTheme: InputDecorationTheme(
@@ -35,6 +34,8 @@ class AppTheme {
   }
 
   static BoxDecoration screenGradient() {
-    return const BoxDecoration(gradient: RadialGradient(center: Alignment(-0.85, -0.95), radius: 1.25, colors: [Color(0xFF1A1740), background]));
+    return const BoxDecoration(
+      gradient: RadialGradient(center: Alignment(-0.85, -0.95), radius: 1.25, colors: [Color(0xFF1A1740), background]),
+    );
   }
 }

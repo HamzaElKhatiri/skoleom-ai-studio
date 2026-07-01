@@ -1,53 +1,34 @@
 # Skoleom AI Studio
 
-Application Flutter App + Web mobile-first avec UI sombre premium et connexion API configurable.
+Application Flutter App + Web mobile-first avec UI sombre premium.
 
-## Lancer en local mock
+## Correctifs build web
 
-```bash
-flutter pub get
-flutter run -d chrome
-```
+- Suppression des dépendances externes `http` et `google_fonts` qui provoquaient les erreurs `Couldn't resolve the package`.
+- Remplacement du client HTTP par un transport natif conditionnel `dart:html` pour le web et `dart:io` pour mobile/desktop.
+- Thème Flutter sans import `GoogleFonts`.
+- Correction du KPI dynamique du dashboard sans constructeur `const` invalide.
 
-Sans `SKOLEOM_API_BASE_URL`, l’application utilise le `MockRepository` pour rester entièrement fonctionnelle.
+## Lancer en local
 
-## Lancer avec backend réel
+Commande : flutter pub get
 
-```bash
-flutter run -d chrome \
-  --dart-define=SKOLEOM_API_BASE_URL="https://votre-api.com" \
-  --dart-define=SKOLEOM_API_TOKEN="votre-token" \
-  --dart-define=SKOLEOM_PROJECTS_ENDPOINT="/projects" \
-  --dart-define=SKOLEOM_CHAT_ENDPOINT="/chat"
-```
+Commande : flutter run -d chrome
 
-## Secrets GitHub à ajouter
+Sans `SKOLEOM_API_BASE_URL`, l’application utilise le repository mock local.
 
-Dans GitHub > Settings > Secrets and variables > Actions :
+## Build web
 
-- `SKOLEOM_API_BASE_URL`
-- `SKOLEOM_API_TOKEN`
-- `SKOLEOM_AUTH_LOGIN_ENDPOINT`
-- `SKOLEOM_PROJECTS_ENDPOINT`
-- `SKOLEOM_CHAT_ENDPOINT`
-- `SKOLEOM_AGENTS_ENDPOINT`
-- `SKOLEOM_USAGE_ENDPOINT`
-- `SKOLEOM_BILLING_ENDPOINT`
+Commande : flutter build web --release --base-href "/"
 
-Le workflow `.github/workflows/flutter-web.yml` injecte ces valeurs avec `--dart-define` pendant le build.
+## API réelle
 
-## Écrans connectés
+Ajouter au build les valeurs `--dart-define` :
 
-- Onboarding / Login API
-- Dashboard
-- Vibe Coding Chat
-- Projets
-- Détail projet avec redéploiement
-- Agents IA
-- Usage & rate limits
-- Plan & billing
-- Settings
-
-## Preview statique
-
-Ouvrir `public/preview.html` pour une visualisation immédiate HTML/CSS.
+- SKOLEOM_API_BASE_URL
+- SKOLEOM_API_TOKEN
+- SKOLEOM_PROJECTS_ENDPOINT
+- SKOLEOM_CHAT_ENDPOINT
+- SKOLEOM_AGENTS_ENDPOINT
+- SKOLEOM_USAGE_ENDPOINT
+- SKOLEOM_BILLING_ENDPOINT
