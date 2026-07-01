@@ -34,6 +34,7 @@ jobs:
           GITHUB_PAGES_DOMAIN: skoleom-ai-studio.skoleom.ai
           SKOLEOM_API_BASE_URL: ${{ secrets.SKOLEOM_API_BASE_URL }}
           SKOLEOM_AUTH_LOGIN_ENDPOINT: ${{ secrets.SKOLEOM_AUTH_LOGIN_ENDPOINT }}
+          SKOLEOM_CHAT_ENDPOINT: ${{ secrets.SKOLEOM_CHAT_ENDPOINT }}
           SKOLEOM_PROJECTS_ENDPOINT: ${{ secrets.SKOLEOM_PROJECTS_ENDPOINT }}
 
       - name: Configure static routing
