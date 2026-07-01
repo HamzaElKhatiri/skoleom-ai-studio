@@ -16,7 +16,7 @@ class SettingsScreen extends StatelessWidget {
       subtitle: 'Configuration backend, sécurité, usage et facturation.',
       child: Column(
         children: [
-          PremiumCard(child: Row(children: [CircleAvatar(radius: 28, backgroundColor: AppTheme.accent.withOpacity(0.22), child: const Text('SK', style: TextStyle(fontWeight: FontWeight.w900))), const SizedBox(width: 14), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Skoleom Team', style: TextStyle(fontWeight: FontWeight.w900)), SizedBox(height: 4), Text('studio@skoleom.com', style: TextStyle(color: AppTheme.muted))])), const Icon(Icons.verified_rounded, color: AppTheme.accent2)])),
+          PremiumCard(child: Row(children: [CircleAvatar(radius: 28, backgroundColor: AppTheme.accent.withValues(alpha: 0.22), child: const Text('SK', style: TextStyle(fontWeight: FontWeight.w900))), const SizedBox(width: 14), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Skoleom Team', style: TextStyle(fontWeight: FontWeight.w900)), SizedBox(height: 4), Text('studio@skoleom.com', style: TextStyle(color: AppTheme.muted))])), const Icon(Icons.verified_rounded, color: AppTheme.accent2)])),
           const SizedBox(height: 16),
           _SettingTile(icon: Icons.analytics_rounded, title: 'Usage & rate limits', subtitle: 'Prompts, builds, déploiements', onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const UsageScreen()))),
           _SettingTile(icon: Icons.credit_card_rounded, title: 'Plan & billing', subtitle: 'Plan actuel et crédits', onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const BillingScreen()))),
@@ -41,7 +41,7 @@ class _SettingTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: PremiumCard(
         onTap: onTap,
-        child: Row(children: [Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.accent.withOpacity(0.14), borderRadius: BorderRadius.circular(16)), child: Icon(icon, color: AppTheme.accent2)), const SizedBox(width: 14), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title, style: const TextStyle(fontWeight: FontWeight.w900)), const SizedBox(height: 4), Text(subtitle, style: const TextStyle(color: AppTheme.muted, fontSize: 12))])), const Icon(Icons.chevron_right_rounded, color: AppTheme.muted)]),
+        child: Row(children: [Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.accent.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(16)), child: Icon(icon, color: AppTheme.accent2)), const SizedBox(width: 14), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title, style: const TextStyle(fontWeight: FontWeight.w900)), const SizedBox(height: 4), Text(subtitle, style: const TextStyle(color: AppTheme.muted, fontSize: 12))])), const Icon(Icons.chevron_right_rounded, color: AppTheme.muted)]),
       ),
     );
   }

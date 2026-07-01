@@ -14,9 +14,9 @@ class PremiumCard extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
-        color: AppTheme.surface.withOpacity(0.88),
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.22), blurRadius: 28, offset: const Offset(0, 16))],
+        color: AppTheme.surface.withValues(alpha: 0.88),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.22), blurRadius: 28, offset: const Offset(0, 16))],
       ),
       child: child,
     );

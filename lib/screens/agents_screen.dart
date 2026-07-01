@@ -49,7 +49,7 @@ class _AgentsScreenState extends State<AgentsScreen> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: PremiumCard(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Row(children: [Container(width: 48, height: 48, decoration: BoxDecoration(color: color.withOpacity(0.14), borderRadius: BorderRadius.circular(17)), child: Icon(Icons.smart_toy_rounded, color: color)), const SizedBox(width: 14), Expanded(child: Text(agent.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900))), StatusPill(label: _label(agent.status), color: color)]),
+                    Row(children: [Container(width: 48, height: 48, decoration: BoxDecoration(color: color.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(17)), child: Icon(Icons.smart_toy_rounded, color: color)), const SizedBox(width: 14), Expanded(child: Text(agent.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900))), StatusPill(label: _label(agent.status), color: color)]),
                     const SizedBox(height: 12),
                     Text(agent.role, style: const TextStyle(color: AppTheme.muted, height: 1.45)),
                     const SizedBox(height: 16),

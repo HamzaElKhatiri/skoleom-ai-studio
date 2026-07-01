@@ -46,9 +46,10 @@ class _ChatScreenState extends State<ChatScreen> {
       if (!mounted) return;
       setState(() => _error = 'Le backend chat n’a pas répondu. Vérifie SKOLEOM_CHAT_ENDPOINT et le token.');
     } finally {
-      if (!mounted) return;
-      setState(() => _sending = false);
-      _scrollToBottom();
+      if (mounted) {
+        setState(() => _sending = false);
+        _scrollToBottom();
+      }
     }
   }
 
@@ -110,7 +111,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(color: AppTheme.surface.withOpacity(0.95), borderRadius: BorderRadius.circular(28), border: Border.all(color: Colors.white.withOpacity(0.08))),
+                        decoration: BoxDecoration(color: AppTheme.surface.withValues(alpha: 0.95), borderRadius: BorderRadius.circular(28), border: Border.all(color: Colors.white.withValues(alpha: 0.08))),
                         child: Row(
                           children: [
                             Expanded(child: TextField(controller: _controller, minLines: 1, maxLines: 4, decoration: const InputDecoration(hintText: 'Créer une app mobile pour...', border: InputBorder.none, filled: false), onSubmitted: (_) => _send())),
@@ -143,14 +144,14 @@ class _MessageBubble extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 560),
         margin: const EdgeInsets.only(bottom: 14),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(24), border: Border.all(color: Colors.white.withOpacity(0.07))),
+        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(24), border: Border.all(color: Colors.white.withValues(alpha: 0.07))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(message.content, style: const TextStyle(height: 1.45)),
             if (message.suggestedStack.isNotEmpty) ...[
               const SizedBox(height: 12),
-              Wrap(spacing: 8, runSpacing: 8, children: message.suggestedStack.map((s) => Chip(label: Text(s), backgroundColor: AppTheme.accent2.withOpacity(0.12), side: BorderSide(color: AppTheme.accent2.withOpacity(0.25)))).toList()),
+              Wrap(spacing: 8, runSpacing: 8, children: message.suggestedStack.map((s) => Chip(label: Text(s), backgroundColor: AppTheme.accent2.withValues(alpha: 0.12), side: BorderSide(color: AppTheme.accent2.withValues(alpha: 0.25)))).toList()),
             ],
           ],
         ),

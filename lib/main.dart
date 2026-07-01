@@ -114,8 +114,8 @@ class _StudioShellState extends State<StudioShell> {
               onDestinationSelected: _select,
               extended: width >= 1180,
               minExtendedWidth: 224,
-              backgroundColor: AppTheme.backgroundSoft.withOpacity(0.96),
-              indicatorColor: AppTheme.accent.withOpacity(0.18),
+              backgroundColor: AppTheme.backgroundSoft.withValues(alpha: 0.96),
+              indicatorColor: AppTheme.accent.withValues(alpha: 0.18),
               selectedIconTheme: const IconThemeData(color: AppTheme.accent2),
               unselectedIconTheme: const IconThemeData(color: AppTheme.muted),
               selectedLabelTextStyle: const TextStyle(color: AppTheme.text, fontWeight: FontWeight.w800),
@@ -158,8 +158,8 @@ class _StudioShellState extends State<StudioShell> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: _select,
-        backgroundColor: AppTheme.backgroundSoft.withOpacity(0.98),
-        indicatorColor: AppTheme.accent.withOpacity(0.18),
+        backgroundColor: AppTheme.backgroundSoft.withValues(alpha: 0.98),
+        indicatorColor: AppTheme.accent.withValues(alpha: 0.18),
         destinations: _destinations.map((destination) {
           return NavigationDestination(
             icon: Icon(destination.icon),

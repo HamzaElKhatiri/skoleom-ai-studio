@@ -90,7 +90,7 @@ class _OnboardingLoginScreenState extends State<OnboardingLoginScreen> {
                           ? const Center(child: CircularProgressIndicator())
                           : GradientButton(label: 'Entrer dans le Studio', icon: Icons.lock_open_rounded, onPressed: _submit),
                       const SizedBox(height: 12),
-                      Center(child: Text(AppConfig.useApi ? 'Secrets injectés via --dart-define / GitHub Secrets' : 'Aucune API configurée : fallback local actif', style: TextStyle(color: AppTheme.muted.withOpacity(0.8), fontSize: 12))),
+                      Center(child: Text(AppConfig.useApi ? 'Secrets injectés via --dart-define / GitHub Secrets' : 'Aucune API configurée : fallback local actif', style: TextStyle(color: AppTheme.muted.withValues(alpha: 0.8), fontSize: 12))),
                     ],
                   ),
                 ),
