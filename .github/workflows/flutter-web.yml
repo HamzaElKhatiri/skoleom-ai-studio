@@ -1,0 +1,42 @@
+name: Flutter Web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Build web with API secrets
+        run: |
+          flutter build web --release --base-href "/" \
+            --dart-define=SKOLEOM_API_BASE_URL="${{ secrets.SKOLEOM_API_BASE_URL }}" \
+            --dart-define=SKOLEOM_API_TOKEN="${{ secrets.SKOLEOM_API_TOKEN }}" \
+            --dart-define=SKOLEOM_AUTH_LOGIN_ENDPOINT="${{ secrets.SKOLEOM_AUTH_LOGIN_ENDPOINT }}" \
+            --dart-define=SKOLEOM_PROJECTS_ENDPOINT="${{ secrets.SKOLEOM_PROJECTS_ENDPOINT }}" \
+            --dart-define=SKOLEOM_CHAT_ENDPOINT="${{ secrets.SKOLEOM_CHAT_ENDPOINT }}" \
+            --dart-define=SKOLEOM_AGENTS_ENDPOINT="${{ secrets.SKOLEOM_AGENTS_ENDPOINT }}" \
+            --dart-define=SKOLEOM_USAGE_ENDPOINT="${{ secrets.SKOLEOM_USAGE_ENDPOINT }}" \
+            --dart-define=SKOLEOM_BILLING_ENDPOINT="${{ secrets.SKOLEOM_BILLING_ENDPOINT }}"
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: skoleom-ai-studio-web
+          path: build/web

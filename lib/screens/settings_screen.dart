@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skoleom_ai_studio/config/app_config.dart';
 import 'package:skoleom_ai_studio/screens/billing_screen.dart';
 import 'package:skoleom_ai_studio/screens/usage_screen.dart';
 import 'package:skoleom_ai_studio/theme/app_theme.dart';
@@ -12,20 +13,16 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenFrame(
       title: 'Settings',
-      subtitle: 'Préférences, sécurité, usage et facturation.',
+      subtitle: 'Configuration backend, sécurité, usage et facturation.',
       child: Column(
         children: [
-          PremiumCard(
-            child: Row(children: [CircleAvatar(radius: 28, backgroundColor: AppTheme.accent.withOpacity(0.22), child: const Text('SK', style: TextStyle(fontWeight: FontWeight.w900))), const SizedBox(width: 14), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Skoleom Team', style: TextStyle(fontWeight: FontWeight.w900)), SizedBox(height: 4), Text('studio@skoleom.com', style: TextStyle(color: AppTheme.muted))])), const Icon(Icons.verified_rounded, color: AppTheme.accent2)]),
-          ),
+          PremiumCard(child: Row(children: [CircleAvatar(radius: 28, backgroundColor: AppTheme.accent.withOpacity(0.22), child: const Text('SK', style: TextStyle(fontWeight: FontWeight.w900))), const SizedBox(width: 14), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Skoleom Team', style: TextStyle(fontWeight: FontWeight.w900)), SizedBox(height: 4), Text('studio@skoleom.com', style: TextStyle(color: AppTheme.muted))])), const Icon(Icons.verified_rounded, color: AppTheme.accent2)])),
           const SizedBox(height: 16),
           _SettingTile(icon: Icons.analytics_rounded, title: 'Usage & rate limits', subtitle: 'Prompts, builds, déploiements', onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const UsageScreen()))),
           _SettingTile(icon: Icons.credit_card_rounded, title: 'Plan & billing', subtitle: 'Plan actuel et crédits', onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const BillingScreen()))),
-          _SettingTile(icon: Icons.notifications_rounded, title: 'Notifications', subtitle: 'Builds terminés et alertes limites', onTap: () {}),
-          _SettingTile(icon: Icons.key_rounded, title: 'API access', subtitle: 'Tokens prêts à brancher', onTap: () {}),
-          _SettingTile(icon: Icons.shield_rounded, title: 'Sécurité', subtitle: 'Sessions et permissions', onTap: () {}),
+          _SettingTile(icon: Icons.key_rounded, title: 'API access', subtitle: AppConfig.useApi ? AppConfig.apiBaseUrl : 'Fallback mock local actif', onTap: () {}),
           const SizedBox(height: 18),
-          PremiumCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('Mode mock local', style: TextStyle(fontWeight: FontWeight.w900)), const SizedBox(height: 8), const Text('Toutes les données sont simulées dans MockRepository. Le code est structuré pour brancher une API réelle sans changer les écrans.', style: TextStyle(color: AppTheme.muted, height: 1.45)), const SizedBox(height: 14), SwitchListTile.adaptive(value: true, onChanged: (_) {}, title: const Text('Dark UI premium'), contentPadding: EdgeInsets.zero)])),
+          PremiumCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('Backend configuration', style: TextStyle(fontWeight: FontWeight.w900)), const SizedBox(height: 8), Text(AppConfig.useApi ? 'L’application utilise SKOLEOM_API_BASE_URL et les endpoints injectés par GitHub Secrets.' : 'Aucune API fournie au build. Le mode local reste fonctionnel pour développer.', style: const TextStyle(color: AppTheme.muted, height: 1.45)), const SizedBox(height: 14), SwitchListTile.adaptive(value: AppConfig.useApi, onChanged: (_) {}, title: const Text('API réelle activée'), contentPadding: EdgeInsets.zero)])),
         ],
       ),
     );

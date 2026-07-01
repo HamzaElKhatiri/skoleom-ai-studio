@@ -1,12 +1,15 @@
 import 'dart:async';
+
 import 'package:skoleom_ai_studio/models/agent.dart';
 import 'package:skoleom_ai_studio/models/chat_message.dart';
 import 'package:skoleom_ai_studio/models/project.dart';
 import 'package:skoleom_ai_studio/models/usage.dart';
+import 'package:skoleom_ai_studio/services/studio_repository.dart';
 
-class MockRepository {
+class MockRepository implements StudioRepository {
   const MockRepository();
 
+  @override
   Future<List<Project>> getProjects() async {
     await Future<void>.delayed(const Duration(milliseconds: 450));
     return const [
@@ -17,6 +20,7 @@ class MockRepository {
     ];
   }
 
+  @override
   Future<List<Agent>> getAgents() async {
     await Future<void>.delayed(const Duration(milliseconds: 380));
     return const [
@@ -27,6 +31,7 @@ class MockRepository {
     ];
   }
 
+  @override
   Future<List<UsageMetric>> getUsage() async {
     await Future<void>.delayed(const Duration(milliseconds: 360));
     return const [
@@ -37,6 +42,7 @@ class MockRepository {
     ];
   }
 
+  @override
   Future<BillingPlan> getCurrentPlan() async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     return const BillingPlan(
@@ -47,6 +53,7 @@ class MockRepository {
     );
   }
 
+  @override
   Future<ChatMessage> sendPrompt(String prompt) async {
     await Future<void>.delayed(const Duration(milliseconds: 800));
     final lower = prompt.toLowerCase();
@@ -62,10 +69,22 @@ class MockRepository {
     }
     return ChatMessage(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
-      content: 'J’ai analysé ton prompt. Je recommande ${stack.join(', ')}. Je peux générer la structure, les écrans, les composants premium et préparer les points de branchement API.',
+      content: 'J’ai analysé ton prompt. Je recommande ${stack.join(', ')}. Le repository est maintenant branché API : configure SKOLEOM_API_BASE_URL et les endpoints via GitHub Secrets pour utiliser le backend réel.',
       isUser: false,
       time: DateTime.now(),
       suggestedStack: stack,
     );
+  }
+
+  @override
+  Future<Project> createProject({required String name, required String prompt}) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    return Project(id: DateTime.now().millisecondsSinceEpoch.toString(), name: name, description: prompt, framework: 'Flutter', status: ProjectStatus.building, lastActivity: 'à l’instant', progress: 0.08, deployUrl: 'preview.local', stack: const ['Flutter', 'API-ready', 'Responsive Web']);
+  }
+
+  @override
+  Future<Project> redeployProject(String projectId) async {
+    final project = (await getProjects()).firstWhere((item) => item.id == projectId, orElse: () => const Project(id: 'preview', name: 'Preview', description: 'Redéploiement local', framework: 'Flutter', status: ProjectStatus.building, lastActivity: 'à l’instant', progress: 0.12, deployUrl: 'preview.local', stack: ['Flutter']));
+    return project;
   }
 }

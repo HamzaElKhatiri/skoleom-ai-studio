@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skoleom_ai_studio/models/chat_message.dart';
-import 'package:skoleom_ai_studio/services/mock_repository.dart';
+import 'package:skoleom_ai_studio/services/repository_provider.dart';
+import 'package:skoleom_ai_studio/services/studio_repository.dart';
 import 'package:skoleom_ai_studio/theme/app_theme.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -11,12 +12,13 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final MockRepository _repo = const MockRepository();
+  final StudioRepository _repo = RepositoryProvider.instance;
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   bool _sending = false;
+  String? _error;
   final List<ChatMessage> _messages = [
-    ChatMessage(id: 'hello', content: 'Salut, je suis Skoleom AI Studio. Décris le projet que tu veux créer, je choisis la stack et je prépare le plan de build.', isUser: false, time: DateTime.now(), suggestedStack: ['Flutter', 'Mock API', 'Responsive Web']),
+    ChatMessage(id: 'hello', content: 'Salut, je suis Skoleom AI Studio. Le chat est maintenant branché au repository API. Décris le projet à créer.', isUser: false, time: DateTime.now(), suggestedStack: ['Backend API', 'Projects', 'Chat']),
   ];
 
   @override
@@ -32,23 +34,30 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _messages.add(ChatMessage(id: DateTime.now().millisecondsSinceEpoch.toString(), content: text, isUser: true, time: DateTime.now()));
       _sending = true;
+      _error = null;
       _controller.clear();
     });
     _scrollToBottom();
-    final response = await _repo.sendPrompt(text);
-    if (!mounted) return;
-    setState(() {
-      _messages.add(response);
-      _sending = false;
-    });
-    _scrollToBottom();
+    try {
+      final response = await _repo.sendPrompt(text);
+      if (!mounted) return;
+      setState(() => _messages.add(response));
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _error = 'Le backend chat n’a pas répondu. Vérifie SKOLEOM_CHAT_ENDPOINT et le token.');
+    } finally {
+      if (!mounted) return;
+      setState(() => _sending = false);
+      _scrollToBottom();
+    }
   }
 
   void _newChat() {
     setState(() {
+      _error = null;
       _messages
         ..clear()
-        ..add(ChatMessage(id: 'new', content: 'Nouveau chat prêt. Donne-moi une idée, une cible utilisateur et le style souhaité.', isUser: false, time: DateTime.now(), suggestedStack: const ['Flutter', 'API-ready']));
+        ..add(ChatMessage(id: 'new', content: 'Nouveau chat prêt. Donne-moi une idée, une cible utilisateur et le style souhaité.', isUser: false, time: DateTime.now(), suggestedStack: const ['API-ready', 'Project builder']));
     });
   }
 
@@ -74,11 +83,16 @@ class _ChatScreenState extends State<ChatScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 18, 20, 10),
                     child: Row(
                       children: [
-                        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Vibe Coding', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900)), const SizedBox(height: 4), const Text('Prompt, stack automatique, plan de build.', style: TextStyle(color: AppTheme.muted))])),
+                        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Vibe Coding', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900)), const SizedBox(height: 4), const Text('Chat connecté au backend existant.', style: TextStyle(color: AppTheme.muted))])),
                         IconButton.filledTonal(onPressed: _newChat, icon: const Icon(Icons.add_comment_rounded)),
                       ],
                     ),
                   ),
+                  if (_error != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      child: Text(_error!, style: const TextStyle(color: AppTheme.danger, fontWeight: FontWeight.w700)),
+                    ),
                   Expanded(
                     child: ListView.builder(
                       controller: _scrollController,
@@ -149,6 +163,6 @@ class _TypingBubble extends StatelessWidget {
   const _TypingBubble();
   @override
   Widget build(BuildContext context) {
-    return Align(alignment: Alignment.centerLeft, child: Container(margin: const EdgeInsets.only(bottom: 14), padding: const EdgeInsets.all(16), decoration: BoxDecoration(color: AppTheme.surfaceElevated, borderRadius: BorderRadius.circular(24)), child: const Text('Skoleom réfléchit...', style: TextStyle(color: AppTheme.muted))));
+    return Align(alignment: Alignment.centerLeft, child: Container(margin: const EdgeInsets.only(bottom: 14), padding: const EdgeInsets.all(16), decoration: BoxDecoration(color: AppTheme.surfaceElevated, borderRadius: BorderRadius.circular(24)), child: const Text('Skoleom appelle le backend...', style: TextStyle(color: AppTheme.muted))));
   }
 }

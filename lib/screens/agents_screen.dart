@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skoleom_ai_studio/models/agent.dart';
-import 'package:skoleom_ai_studio/services/mock_repository.dart';
+import 'package:skoleom_ai_studio/services/repository_provider.dart';
+import 'package:skoleom_ai_studio/services/studio_repository.dart';
 import 'package:skoleom_ai_studio/theme/app_theme.dart';
 import 'package:skoleom_ai_studio/widgets/premium_card.dart';
 import 'package:skoleom_ai_studio/widgets/progress_bar.dart';
@@ -16,7 +17,7 @@ class AgentsScreen extends StatefulWidget {
 }
 
 class _AgentsScreenState extends State<AgentsScreen> {
-  final MockRepository _repo = const MockRepository();
+  final StudioRepository _repo = RepositoryProvider.instance;
   late Future<List<Agent>> _future;
 
   @override
@@ -32,12 +33,12 @@ class _AgentsScreenState extends State<AgentsScreen> {
   Widget build(BuildContext context) {
     return ScreenFrame(
       title: 'Agents IA',
-      subtitle: 'Configure les spécialistes qui construisent avec toi.',
-      trailing: IconButton.filled(onPressed: () {}, icon: const Icon(Icons.add_rounded)),
+      subtitle: 'Agents chargés depuis le backend.',
+      trailing: IconButton.filled(onPressed: () => setState(() => _future = _repo.getAgents()), icon: const Icon(Icons.refresh_rounded)),
       child: FutureBuilder<List<Agent>>(
         future: _future,
         builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) return const SizedBox(height: 420, child: LoadingView(label: 'Démarrage des agents'));
+          if (snapshot.connectionState != ConnectionState.done) return const SizedBox(height: 420, child: LoadingView(label: 'Chargement API des agents'));
           if (snapshot.hasError) return SizedBox(height: 420, child: ErrorStateView(onRetry: () => setState(() => _future = _repo.getAgents())));
           final agents = snapshot.data ?? [];
           if (agents.isEmpty) return const SizedBox(height: 420, child: EmptyStateView(title: 'Aucun agent', message: 'Crée un agent pour automatiser ton studio.', icon: Icons.smart_toy_outlined));

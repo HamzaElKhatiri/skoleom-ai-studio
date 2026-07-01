@@ -18,53 +18,23 @@ class AppTheme {
     final base = ThemeData.dark(useMaterial3: true);
     return base.copyWith(
       scaffoldBackgroundColor: background,
-      colorScheme: const ColorScheme.dark(
-        primary: accent,
-        secondary: accent2,
-        surface: surface,
-        error: danger,
-      ),
-      textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(
-        bodyColor: text,
-        displayColor: text,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: false,
-      ),
-      cardTheme: CardThemeData(
-        color: surface,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-      ),
+      colorScheme: const ColorScheme.dark(primary: accent, secondary: accent2, surface: surface, error: danger),
+      textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(bodyColor: text, displayColor: text),
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0, centerTitle: false),
+      cardTheme: CardThemeData(color: surface, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28))),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaceElevated,
         hintStyle: const TextStyle(color: muted),
+        labelStyle: const TextStyle(color: muted),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(22), borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(22), borderSide: const BorderSide(color: accent, width: 1.4)),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: accent,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700),
-        ),
-      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(backgroundColor: accent, foregroundColor: Colors.white, elevation: 0, padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), textStyle: const TextStyle(fontWeight: FontWeight.w700))),
     );
   }
 
   static BoxDecoration screenGradient() {
-    return const BoxDecoration(
-      gradient: RadialGradient(
-        center: Alignment(-0.85, -0.95),
-        radius: 1.25,
-        colors: [Color(0xFF1A1740), background],
-      ),
-    );
+    return const BoxDecoration(gradient: RadialGradient(center: Alignment(-0.85, -0.95), radius: 1.25, colors: [Color(0xFF1A1740), background]));
   }
 }

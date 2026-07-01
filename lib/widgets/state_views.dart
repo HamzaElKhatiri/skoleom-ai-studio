@@ -9,18 +9,7 @@ class LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: PremiumCard(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 16),
-            Text(label, style: const TextStyle(color: AppTheme.muted)),
-          ],
-        ),
-      ),
-    );
+    return Center(child: PremiumCard(child: Column(mainAxisSize: MainAxisSize.min, children: [const CircularProgressIndicator(), const SizedBox(height: 16), Text(label, style: const TextStyle(color: AppTheme.muted))])));
   }
 }
 
@@ -33,20 +22,7 @@ class EmptyStateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: PremiumCard(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 42, color: AppTheme.accent2),
-            const SizedBox(height: 14),
-            Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
-            const SizedBox(height: 8),
-            Text(message, textAlign: TextAlign.center, style: const TextStyle(color: AppTheme.muted)),
-          ],
-        ),
-      ),
-    );
+    return Center(child: PremiumCard(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(icon, size: 42, color: AppTheme.accent2), const SizedBox(height: 14), Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)), const SizedBox(height: 8), Text(message, textAlign: TextAlign.center, style: const TextStyle(color: AppTheme.muted))])));
   }
 }
 
@@ -57,19 +33,6 @@ class ErrorStateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: PremiumCard(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.warning_rounded, color: AppTheme.danger, size: 40),
-            const SizedBox(height: 12),
-            const Text('Impossible de charger les données', style: TextStyle(fontWeight: FontWeight.w800)),
-            const SizedBox(height: 14),
-            ElevatedButton(onPressed: onRetry, child: const Text('Réessayer')),
-          ],
-        ),
-      ),
-    );
+    return Center(child: PremiumCard(child: Column(mainAxisSize: MainAxisSize.min, children: [const Icon(Icons.warning_rounded, color: AppTheme.danger, size: 40), const SizedBox(height: 12), const Text('Impossible de charger les données API', style: TextStyle(fontWeight: FontWeight.w800)), const SizedBox(height: 14), ElevatedButton(onPressed: onRetry, child: const Text('Réessayer'))])));
   }
 }

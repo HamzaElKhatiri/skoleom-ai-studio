@@ -12,12 +12,7 @@ class PremiumProgressBar extends StatelessWidget {
     final safeValue = value.clamp(0.0, 1.0);
     return ClipRRect(
       borderRadius: BorderRadius.circular(999),
-      child: LinearProgressIndicator(
-        minHeight: 10,
-        value: safeValue,
-        backgroundColor: Colors.white.withOpacity(0.08),
-        valueColor: AlwaysStoppedAnimation<Color>(color),
-      ),
+      child: LinearProgressIndicator(minHeight: 10, value: safeValue, backgroundColor: Colors.white.withOpacity(0.08), valueColor: AlwaysStoppedAnimation<Color>(color)),
     );
   }
 }

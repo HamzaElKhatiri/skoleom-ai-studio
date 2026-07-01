@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:skoleom_ai_studio/config/app_config.dart';
 import 'package:skoleom_ai_studio/screens/agents_screen.dart';
 import 'package:skoleom_ai_studio/screens/chat_screen.dart';
 import 'package:skoleom_ai_studio/screens/dashboard_screen.dart';
 import 'package:skoleom_ai_studio/screens/onboarding_login_screen.dart';
 import 'package:skoleom_ai_studio/screens/projects_screen.dart';
 import 'package:skoleom_ai_studio/screens/settings_screen.dart';
+import 'package:skoleom_ai_studio/services/api_client.dart';
+import 'package:skoleom_ai_studio/services/api_repository.dart';
+import 'package:skoleom_ai_studio/services/auth_service.dart';
+import 'package:skoleom_ai_studio/services/mock_repository.dart';
+import 'package:skoleom_ai_studio/services/repository_provider.dart';
 import 'package:skoleom_ai_studio/theme/app_theme.dart';
 
 void main() {
@@ -33,16 +39,39 @@ class AppRoot extends StatefulWidget {
 }
 
 class _AppRootState extends State<AppRoot> {
+  final AuthService _authService = AuthService();
   bool _isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final apiClient = ApiClient(tokenResolver: () => _authService.accessToken);
+    RepositoryProvider.configure(
+      AppConfig.useApi ? ApiRepository(apiClient) : const MockRepository(),
+    );
+    if (AppConfig.hasStaticToken) {
+      _authService.authenticateWithStaticToken();
+    }
+  }
+
+  Future<String?> _login(String email, String password) async {
+    try {
+      await _authService.login(email: email, password: password);
+      if (!mounted) return null;
+      setState(() => _isLoggedIn = true);
+      return null;
+    } on ApiException catch (error) {
+      return error.message;
+    } catch (_) {
+      return 'Connexion impossible. Vérifie les identifiants ou les secrets API.';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     if (!_isLoggedIn) {
-      return OnboardingLoginScreen(
-        onLogin: () => setState(() => _isLoggedIn = true),
-      );
+      return OnboardingLoginScreen(onLogin: _login);
     }
-
     return const StudioShell();
   }
 }
@@ -58,36 +87,11 @@ class _StudioShellState extends State<StudioShell> {
   int _selectedIndex = 0;
 
   static const List<_StudioDestination> _destinations = [
-    _StudioDestination(
-      label: 'Studio',
-      icon: Icons.dashboard_outlined,
-      selectedIcon: Icons.dashboard_rounded,
-      screen: DashboardScreen(),
-    ),
-    _StudioDestination(
-      label: 'Chat',
-      icon: Icons.auto_awesome_outlined,
-      selectedIcon: Icons.auto_awesome_rounded,
-      screen: ChatScreen(),
-    ),
-    _StudioDestination(
-      label: 'Projets',
-      icon: Icons.folder_outlined,
-      selectedIcon: Icons.folder_rounded,
-      screen: ProjectsScreen(),
-    ),
-    _StudioDestination(
-      label: 'Agents',
-      icon: Icons.smart_toy_outlined,
-      selectedIcon: Icons.smart_toy_rounded,
-      screen: AgentsScreen(),
-    ),
-    _StudioDestination(
-      label: 'Settings',
-      icon: Icons.settings_outlined,
-      selectedIcon: Icons.settings_rounded,
-      screen: SettingsScreen(),
-    ),
+    _StudioDestination(label: 'Studio', icon: Icons.dashboard_outlined, selectedIcon: Icons.dashboard_rounded, screen: DashboardScreen()),
+    _StudioDestination(label: 'Chat', icon: Icons.auto_awesome_outlined, selectedIcon: Icons.auto_awesome_rounded, screen: ChatScreen()),
+    _StudioDestination(label: 'Projets', icon: Icons.folder_outlined, selectedIcon: Icons.folder_rounded, screen: ProjectsScreen()),
+    _StudioDestination(label: 'Agents', icon: Icons.smart_toy_outlined, selectedIcon: Icons.smart_toy_rounded, screen: AgentsScreen()),
+    _StudioDestination(label: 'Settings', icon: Icons.settings_outlined, selectedIcon: Icons.settings_rounded, screen: SettingsScreen()),
   ];
 
   void _select(int index) {
@@ -114,24 +118,19 @@ class _StudioShellState extends State<StudioShell> {
               indicatorColor: AppTheme.accent.withOpacity(0.18),
               selectedIconTheme: const IconThemeData(color: AppTheme.accent2),
               unselectedIconTheme: const IconThemeData(color: AppTheme.muted),
-              selectedLabelTextStyle: const TextStyle(
-                color: AppTheme.text,
-                fontWeight: FontWeight.w800,
-              ),
+              selectedLabelTextStyle: const TextStyle(color: AppTheme.text, fontWeight: FontWeight.w800),
               unselectedLabelTextStyle: const TextStyle(color: AppTheme.muted),
               leading: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 22),
                 child: _StudioMark(extended: width >= 1180),
               ),
-              destinations: _destinations
-                  .map(
-                    (destination) => NavigationRailDestination(
-                      icon: Icon(destination.icon),
-                      selectedIcon: Icon(destination.selectedIcon),
-                      label: Text(destination.label),
-                    ),
-                  )
-                  .toList(),
+              destinations: _destinations.map((destination) {
+                return NavigationRailDestination(
+                  icon: Icon(destination.icon),
+                  selectedIcon: Icon(destination.selectedIcon),
+                  label: Text(destination.label),
+                );
+              }).toList(),
             ),
             Expanded(
               child: AnimatedSwitcher(
@@ -161,27 +160,20 @@ class _StudioShellState extends State<StudioShell> {
         onDestinationSelected: _select,
         backgroundColor: AppTheme.backgroundSoft.withOpacity(0.98),
         indicatorColor: AppTheme.accent.withOpacity(0.18),
-        destinations: _destinations
-            .map(
-              (destination) => NavigationDestination(
-                icon: Icon(destination.icon),
-                selectedIcon: Icon(destination.selectedIcon),
-                label: destination.label,
-              ),
-            )
-            .toList(),
+        destinations: _destinations.map((destination) {
+          return NavigationDestination(
+            icon: Icon(destination.icon),
+            selectedIcon: Icon(destination.selectedIcon),
+            label: destination.label,
+          );
+        }).toList(),
       ),
     );
   }
 }
 
 class _StudioDestination {
-  const _StudioDestination({
-    required this.label,
-    required this.icon,
-    required this.selectedIcon,
-    required this.screen,
-  });
+  const _StudioDestination({required this.label, required this.icon, required this.selectedIcon, required this.screen});
 
   final String label;
   final IconData icon;
@@ -204,18 +196,13 @@ class _StudioMark extends StatelessWidget {
           height: 42,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            gradient: const LinearGradient(
-              colors: [AppTheme.accent, AppTheme.accent2],
-            ),
+            gradient: const LinearGradient(colors: [AppTheme.accent, AppTheme.accent2]),
           ),
           child: const Icon(Icons.auto_awesome_rounded, color: Colors.white),
         ),
         if (extended) ...[
           const SizedBox(width: 12),
-          const Text(
-            'Skoleom',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
-          ),
+          const Text('Skoleom', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
         ],
       ],
     );
