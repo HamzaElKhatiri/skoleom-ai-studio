@@ -1,4 +1,4 @@
-name: Deploy Flutter Web to GitHub Pages
+name: Skoleom AI Studio Deploy
 
 on:
   push:
@@ -28,7 +28,18 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter build web --release --base-href "/"
+
+      - name: Build Flutter web
+        run: |
+          flutter build web --release --base-href "/" \
+            --dart-define=GITHUB_PAGES_DOMAIN="skoleom-ai-studio.skoleom.ai" \
+            --dart-define=SKOLEOM_AGENTS_ENDPOINT="${{ secrets.SKOLEOM_AGENTS_ENDPOINT }}" \
+            --dart-define=SKOLEOM_API_BASE_URL="${{ secrets.SKOLEOM_API_BASE_URL }}" \
+            --dart-define=SKOLEOM_AUTH_LOGIN_ENDPOINT="${{ secrets.SKOLEOM_AUTH_LOGIN_ENDPOINT }}" \
+            --dart-define=SKOLEOM_BILLING_ENDPOINT="${{ secrets.SKOLEOM_BILLING_ENDPOINT }}" \
+            --dart-define=SKOLEOM_CHAT_ENDPOINT="${{ secrets.SKOLEOM_CHAT_ENDPOINT }}" \
+            --dart-define=SKOLEOM_PROJECTS_ENDPOINT="${{ secrets.SKOLEOM_PROJECTS_ENDPOINT }}" \
+            --dart-define=SKOLEOM_USAGE_ENDPOINT="${{ secrets.SKOLEOM_USAGE_ENDPOINT }}"
         env:
           GITHUB_PAGES: true
           GITHUB_PAGES_DOMAIN: skoleom-ai-studio.skoleom.ai
