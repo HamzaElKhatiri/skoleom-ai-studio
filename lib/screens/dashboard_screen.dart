@@ -29,8 +29,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return ScreenFrame(
       title: 'Studio',
-      subtitle: 'Vue rapide synchronisée avec le backend ou le mock local.',
-      trailing: CircleAvatar(backgroundColor: AppTheme.accent.withValues(alpha: 0.2), child: const Text('S', style: TextStyle(fontWeight: FontWeight.w900))),
+      subtitle: 'Vue rapide synchronisée après authentification.',
+      trailing: CircleAvatar(backgroundColor: AppTheme.accent.withValues(alpha: 0.2), child: const Text('HZ', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12))),
       child: FutureBuilder<({List<Project> projects, List<Agent> agents})>(
         future: _future,
         builder: (context, snapshot) {
@@ -40,13 +40,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           final running = data.agents.where((agent) => agent.status == AgentStatus.running).length;
           return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             PremiumCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Row(children: [Expanded(child: Text('Backend status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900))), StatusPill(label: 'Ready', color: AppTheme.success)]),
+              const Row(children: [Expanded(child: Text('Session authentifiée', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900))), StatusPill(label: 'Ready', color: AppTheme.success)]),
               const SizedBox(height: 18),
-              Row(children: [_Kpi(value: '${data.projects.length}', label: 'Projets'), _Kpi(value: '$running', label: 'Agents actifs'), const _Kpi(value: 'OK', label: 'Build web')]),
+              Row(children: [_Kpi(value: '${data.projects.length}', label: 'Projets'), _Kpi(value: '$running', label: 'Agents actifs'), const _Kpi(value: 'HZ', label: 'Organisation')]),
               const SizedBox(height: 20),
               const PremiumProgressBar(value: 0.78, color: AppTheme.accent2),
               const SizedBox(height: 10),
-              const Text('Dépendances externes supprimées : http/google_fonts ne bloquent plus le build.', style: TextStyle(color: AppTheme.muted, fontSize: 13)),
+              const Text('Le token est injecté dans les appels API via Authorization: Bearer.', style: TextStyle(color: AppTheme.muted, fontSize: 13)),
             ])),
             const SizedBox(height: 22),
             Text('Projets récents', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),

@@ -24,11 +24,22 @@ class Project {
       description: (json['description'] ?? json['summary'] ?? '').toString(),
       framework: (json['framework'] ?? (stack.isNotEmpty ? stack.first : 'Flutter')).toString(),
       status: ProjectStatusParser.fromValue(json['status']),
-      lastActivity: (json['lastActivity'] ?? json['updatedAt'] ?? 'activité récente').toString(),
+      lastActivity: _formatActivity(json['lastActivity'] ?? json['updatedAt'] ?? json['createdAt']),
       progress: RatioParser.parse(json['progress'] ?? json['completion']),
       deployUrl: (json['deployUrl'] ?? json['previewUrl'] ?? json['url'] ?? '').toString(),
       stack: stack,
     );
+  }
+
+  static String _formatActivity(Object? value) {
+    if (value == null) return 'activité récente';
+    final parsed = DateTime.tryParse(value.toString());
+    if (parsed == null) return value.toString();
+    final diff = DateTime.now().difference(parsed.toLocal());
+    if (diff.inMinutes < 1) return 'à l’instant';
+    if (diff.inMinutes < 60) return 'il y a ${diff.inMinutes} min';
+    if (diff.inHours < 24) return 'il y a ${diff.inHours} h';
+    return 'il y a ${diff.inDays} j';
   }
 }
 
@@ -100,7 +111,7 @@ class BillingPlan {
 
   factory BillingPlan.fromJson(Map<String, dynamic> json) {
     final rawFeatures = json['features'] ?? const <dynamic>[];
-    return BillingPlan(name: (json['name'] ?? 'Plan actif').toString(), price: (json['price'] ?? '').toString(), credits: IntParser.parse(json['credits']), features: rawFeatures is List ? rawFeatures.map((item) => item.toString()).toList() : const []);
+    return BillingPlan(name: (json['name'] ?? json['plan'] ?? 'Plan actif').toString(), price: (json['price'] ?? json['amount'] ?? '').toString(), credits: IntParser.parse(json['credits'] ?? json['remainingCredits']), features: rawFeatures is List ? rawFeatures.map((item) => item.toString()).toList() : const []);
   }
 }
 

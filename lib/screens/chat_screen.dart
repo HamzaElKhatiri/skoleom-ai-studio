@@ -14,7 +14,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final StudioRepository _repo = RepositoryProvider.instance;
   final TextEditingController _controller = TextEditingController();
-  final List<ChatMessage> _messages = [ChatMessage(id: 'hello', content: 'Salut, le bug de build web a été corrigé. Décris ton prochain projet.', isUser: false, time: DateTime.now(), suggestedStack: const ['Flutter Web', 'Build release', 'API-ready'])];
+  final List<ChatMessage> _messages = [ChatMessage(id: 'hello', content: 'Session ouverte. Tu peux maintenant utiliser le chat protégé par authentification.', isUser: false, time: DateTime.now(), suggestedStack: const ['Auth ready', 'API token', 'Flutter Web'])];
   bool _sending = false;
   String? _error;
 
@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() => _messages.add(response));
     } catch (_) {
       if (!mounted) return;
-      setState(() => _error = 'Le backend chat n’a pas répondu. Vérifie les endpoints et le CORS.');
+      setState(() => _error = 'Le backend chat n’a pas répondu. Vérifie le token, les endpoints et le CORS.');
     } finally {
       if (mounted) setState(() => _sending = false);
     }
@@ -54,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Column(children: [
-              Padding(padding: const EdgeInsets.fromLTRB(20, 18, 20, 10), child: Row(children: [Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Vibe Coding', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900)), const SizedBox(height: 4), const Text('Chat connecté au repository configuré.', style: TextStyle(color: AppTheme.muted))])), IconButton.filledTonal(onPressed: () => setState(() => _messages.clear()), icon: const Icon(Icons.add_comment_rounded))])),
+              Padding(padding: const EdgeInsets.fromLTRB(20, 18, 20, 10), child: Row(children: [Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Vibe Coding', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900)), const SizedBox(height: 4), const Text('Chat connecté avec session authentifiée.', style: TextStyle(color: AppTheme.muted))])), IconButton.filledTonal(onPressed: () => setState(() => _messages.clear()), icon: const Icon(Icons.add_comment_rounded))])),
               if (_error != null) Padding(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8), child: Text(_error!, style: const TextStyle(color: AppTheme.danger, fontWeight: FontWeight.w700))),
               Expanded(child: ListView.builder(padding: const EdgeInsets.fromLTRB(20, 10, 20, 14), itemCount: _messages.length + (_sending ? 1 : 0), itemBuilder: (context, index) {
                 if (_sending && index == _messages.length) return const _TypingBubble();

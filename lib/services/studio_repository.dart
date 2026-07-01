@@ -126,13 +126,13 @@ class MockRepository implements StudioRepository {
   @override
   Future<BillingPlan> getCurrentPlan() async {
     await Future<void>.delayed(const Duration(milliseconds: 180));
-    return const BillingPlan(name: 'Studio Pro', price: '49€ / mois', credits: 12840, features: ['Agents IA avancés', 'Builds Flutter Web', 'Déploiements preview', 'Support prioritaire']);
+    return const BillingPlan(name: 'Hobby', price: '0€ / mois', credits: 2400, features: ['Authentification obligatoire', 'Builds Flutter Web', 'Déploiements preview', 'API-ready']);
   }
 
   @override
   Future<ChatMessage> sendPrompt(String prompt) async {
     await Future<void>.delayed(const Duration(milliseconds: 620));
-    return ChatMessage(id: DateTime.now().microsecondsSinceEpoch.toString(), content: 'J’ai analysé ton prompt. Le build web est corrigé : plus de dépendances externes http/google_fonts et plus de const invalide dans le dashboard.', isUser: false, time: DateTime.now(), suggestedStack: const ['Flutter Web', 'No external http', 'Build ready']);
+    return ChatMessage(id: DateTime.now().microsecondsSinceEpoch.toString(), content: 'Compte authentifié. J’ai analysé ton prompt et je peux maintenant appeler les endpoints protégés de ton API.', isUser: false, time: DateTime.now(), suggestedStack: const ['Auth ready', 'Flutter Web', 'API protected']);
   }
 
   @override

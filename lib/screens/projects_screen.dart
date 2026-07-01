@@ -36,7 +36,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenFrame(title: 'Projets', subtitle: 'Applications, previews et déploiements.', trailing: IconButton.filled(onPressed: _createProject, icon: const Icon(Icons.add_rounded)), child: FutureBuilder<List<Project>>(future: _future, builder: (context, snapshot) {
+    return ScreenFrame(title: 'Projets', subtitle: 'Applications, previews et déploiements protégés par auth.', trailing: IconButton.filled(onPressed: _createProject, icon: const Icon(Icons.add_rounded)), child: FutureBuilder<List<Project>>(future: _future, builder: (context, snapshot) {
       if (snapshot.connectionState != ConnectionState.done) return const SizedBox(height: 420, child: LoadingView(label: 'Chargement des projets'));
       if (snapshot.hasError) return SizedBox(height: 420, child: ErrorStateView(onRetry: () => setState(() => _future = _repo.getProjects())));
       final projects = snapshot.data ?? [];
