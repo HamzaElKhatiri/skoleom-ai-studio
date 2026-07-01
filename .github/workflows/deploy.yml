@@ -37,6 +37,7 @@ jobs:
           SKOLEOM_AUTH_LOGIN_ENDPOINT: ${{ secrets.SKOLEOM_AUTH_LOGIN_ENDPOINT }}
           SKOLEOM_CHAT_ENDPOINT: ${{ secrets.SKOLEOM_CHAT_ENDPOINT }}
           SKOLEOM_PROJECTS_ENDPOINT: ${{ secrets.SKOLEOM_PROJECTS_ENDPOINT }}
+          SKOLEOM_USAGE_ENDPOINT: ${{ secrets.SKOLEOM_USAGE_ENDPOINT }}
 
       - name: Configure static routing
         run: cp build/web/index.html build/web/404.html
